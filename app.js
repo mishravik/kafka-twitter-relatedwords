@@ -11,6 +11,7 @@ const Bacon = require('baconjs');
 
 const Kafka = require('no-kafka');
 const consumerTopicBase = process.env.KAFKA_CONSUMER_TOPIC;
+const kafkaPrefix = process.env.KAFKA_PREFIX;
 
 // const configTopic = process.env.KAFKA_CONFIG_TOPIC;
 
@@ -80,7 +81,7 @@ return producer.init().then(function() {
     return consumer.init().then(function () {
         console.log('Consumer connected.');
 
-        const consumerTopic = `${consumerTopicBase}-keyword`;
+        const consumerTopic = kafkaPrefix + `${consumerTopicBase}-keyword`;
 
         console.log('Consuming from topic:', consumerTopic)
 
@@ -144,7 +145,7 @@ return producer.init().then(function() {
             };
 
             producer.send({
-                topic: `${consumerTopicBase}-relatedwords`,
+                topic: kafkaPrefix + `${consumerTopicBase}-relatedwords`,
                 partition: 0,
                 message: {
                     value: JSONbig.stringify(msg)
